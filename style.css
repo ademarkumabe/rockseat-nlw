@@ -1,0 +1,645 @@
+/*crtl + space = mostra opções opções de propriedades*/
+/*================================================================================================VARIABLES*/
+:root{
+    --header-height: 7.2rem;
+
+    --hue: 270; /*criada uma variavel de cor para que esta sendo usada em h1 e button, otimizando as alterações de cores
+                desta forma podemos alterar as cores do tema do site com uma simples alteração da variavel --hue*/
+    /*HSL color mode*/
+
+    /*CORES PADRÃO*/
+    --base-color: hsl(var(--hue) 36% 57%);
+    --base-color-second: hsl(var(--hue) 65% 88%);
+    --base-color-alt: hsl(var(--hue) 80% 70%); 
+    --title-color: hsl(var(--hue) 41% 10%);
+    --text-color: hsl(0 0% 46%);
+    --text-color-light: hsl(0 0% 98%);
+    --body-color: hsl(0 0% 98%);
+    
+    --title-font-size:3.0rem;
+    --subtitle-font-size:1.6rem;
+    --title-font: "Poppins", sans-serif;
+    --body-font: 'Dm Sans', sans-serif;
+}
+
+
+
+/*================================================================================================BASE*/
+html{
+    scroll-behavior: smooth;
+    font-size: 62.5%;
+}
+body{
+    font: 400 1.6rem var(--body-font);
+    color: var(--text-color);
+    background-color: var(--body-color)  
+}
+.title{
+    font:700 var(--title-font-size) var(--title-font);
+    color: var(--title-color);
+    -webkit-font-smoothing: auto;
+}
+.title-alt{
+    font:700 2.4rem "Poppins", sans-serif;
+    color: var(--title-color);
+}
+.button{ /* Botão Agendar um horario*/
+    
+    background-color: var(--base-color);
+    color: var(--text-color-light);
+    height: 5.4rem;
+    width: 21.4rem;
+    
+    display: inline-flex;
+    
+    
+    padding: 0 2.4rem;
+    align-items: center;
+    text-align: center;
+    border-radius: 0.25rem;
+    font: 500 1.6rem var(--title-font);
+    transition: background 0.3s;
+}
+.button:hover{ /*interação de passar o mouse por cima troca de cor*/
+    background: var(--base-color-alt);
+}
+
+
+
+
+
+/*===============================================================================================s=LAYOUT*/
+.container{
+    margin-left: 2.4rem; /* aqui fizemos a mesma coisa do header, porem pegamos a medida do espaço lateral da pagina e dividimos por 16*/
+    margin-right: 2.4rem; 
+}
+#home .container{
+    margin: 0;
+}
+#about .container{
+    margin: 0;
+}
+.grid{ /*com a propriedade grid podemos habilitar o gap onde quando temos dois filhos, com o gap damos espaço entre eles otimizando ainda mais o alinhamento entre elementos filho*/
+    display: grid;
+    gap: 3.2rem;
+}
+.section {
+    padding: calc(8rem + var(--header-height)) 0;
+}
+.section .title{ /*para todo titulo dentro de section aplicar margem inferior de 1rem */
+    margin-bottom: 1.6rem;
+}
+.section .subtitle{
+    font-size: var(--subtitle-font-size);
+}
+.section header{
+    margin-bottom: 6.4rem;
+}
+.section header strong{
+    color: var(--base-color);
+}
+#header{
+    border-bottom: 1px solid #E4E4E4;
+    margin-bottom: 2rem;
+    display: flex; /*torna o conteudo do header flexivel, se adaptando a sua largura ao eixo horizontal
+    possibilantando um ficar um do lado do outro*/
+
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: var(--body-color);
+    width: 100%;
+}
+#header.scroll {
+    box-shadow: 0px 0px 12px var(--base-color);
+}
+
+
+/*================================================================================================LOGO */
+.logo {
+    font: 700 2.1rem var(--title-font);
+    color: var(--title-color);   
+}
+.logo span{  /*dentro da logo procura para mim o span */
+    color: var(--base-color);
+}
+.logo-alt span{
+    color: var(--body-color);
+}
+
+/*================================================================================================NAVEGATION */
+nav{
+    /*usando medida rem para deixar o header responsivo em relação ao root da pagina que por padrão esta em 16px*/
+    /*para o calculo da medida rem, divida e medida q nesse caso foi que o titulo estava em 72px e dividimos por 16 */
+    height: var(--header-height);
+    display: flex;
+    align-items: center; /*centralização vertical das duas caixas de dentro do nav*/
+    justify-content: space-between;/*no word quando colocamos o texto na esquerda ou na direita nos o chamamos isso de texto justificado, neste estamos justificando o conteudo com space-between que divido o conteudo e duas partes umap para cada lado, flex-end joga tudo para o final.*/
+    width: 100%;
+}
+nav ul li{
+    text-align: center;
+}
+nav ul li a{
+    transition: color 0.2s;
+    position: relative;
+}
+nav ul li a:hover,
+nav ul li a.active{
+    color: var(--base-color);
+}
+nav ul li a::after{
+    content: "";
+    width: 0%;
+    height: 2px;
+    background: var(--base-color);
+
+    position: absolute;
+    left: 0;
+    bottom: -2.4rem;
+
+    transition: width 0.2s;
+}
+nav ul li a:hover::after,
+nav ul li a.active::after{
+    width: 100%;
+}
+nav .menu {
+    opacity: 0;
+    visibility: hidden;
+    top: -32rem;
+    transition: 0.2s;
+}
+nav .menu ul{
+    display: none;
+}
+
+
+/*================================================================================================MOSTRAR MENU*/
+nav.show .menu{ /*o nav.show diferente de nav .show, o nav.show, quando o nav tiver com a classe show procura menu dentro de nav */
+    opacity: 1;
+    visibility: visible;
+
+    background: var(--body-color);
+    
+    height: 100vh;
+    width: 100vw;
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: grid;
+    place-content: center;
+    
+}
+nav.show .menu ul{
+    display: grid;
+}
+nav.show ul.grid{
+    gap: 4rem; /*se eu alterar de 4 para 2rem, ao dar zoom até 175% as extremidades ficam dentro da tela*/
+}
+
+
+
+/*================================================================================================TOGGLE MENU*/
+.toggle {
+    color: var(--base-color);
+    font-size: 2.4rem;
+    cursor: pointer;
+}
+nav .icon-close{
+    visibility: hidden;
+    opacity: 0;
+
+    position: absolute;
+    top: -2.4rem;
+    right: 2.4rem;
+
+    transition: 0.2s;
+    
+}
+nav.show div.icon-close{
+    visibility: visible;
+    opacity: 1;
+    top: 2.4rem;
+}
+
+
+
+
+/*================================================================================================HOME*/
+#home{
+    overflow: hidden;
+}
+#home .image{
+    position: relative;
+}
+#home .image::before{ /*sudo element, podemos criar um elemnento ficticion no caso estamos criando um elemento dentro do elemento img, before significa antes do conteudo.*/
+    content: '';
+    height: 100%;
+    width: 100%;
+    background: var(--base-color-second);
+    position:absolute;
+    top: -16.8%;
+    left: 16.7%;
+    z-index: 0;
+}
+#home .image img {
+    position: relative; /*redimensionamos a imagem um pouco a esquerda*/
+    right: 4.68rem;
+}
+#home .image img,
+#home .image::before{
+    border-radius: 0.4rem;
+}
+#home .text{
+    margin-left: 2.4rem; /* aqui fizemos a mesma coisa do header, porem pegamos a medida do espaço lateral da pagina e dividimos por 16*/
+    margin-right: 2.4rem; 
+    text-align: center;
+}
+#home .text h1{
+    margin-bottom: 1.6rem;
+}
+#home .text p{
+    margin-bottom: 3.2rem;
+}
+
+
+
+/*================================================================================================ABOUT*/
+#about{
+    background: white;
+}
+#about .image{
+    position: relative;
+}
+#about .image::before{ /*sudo element, podemos criar um elemnento ficticio no caso estamos criando um elemento dentro do elemento img, before significa antes do conteudo.*/
+    content: '';
+    height: 100%;
+    width: 100%;
+    background: var(--base-color-second);
+    position:absolute;
+    top: -8.3%;
+    left: -33%;
+    z-index: 0;
+}
+#about .image img {
+    position: relative; /*redimensionamos a imagem um pouco a esquerda*/
+}
+#about .image img,
+#about .image::before{
+    border-radius: 0.4rem;
+}
+#about .text{
+    margin-left: 2.4rem; /* aqui fizemos a mesma coisa do header, porem pegamos a medida do espaço lateral da pagina e dividimos por 16*/
+    margin-right: 2.4rem;   
+}
+
+
+
+/*================================================================================================SERVICES*/
+.cards.grid{
+    gap: 2.4rem;
+}
+.card {
+    padding: 5.8rem 3.2rem;
+    box-shadow: 0px 0px 12px 0px hsla(0, 0%, 0%, 0.08);
+    border-bottom:  0.4rem solid var(--base-color);
+    border-radius: 0.4rem 0.4rem 0 0;
+    text-align: center;
+}
+.card i {
+    display: block;
+    margin-bottom:  2.4rem;
+    font-size: 5rem;
+    color: var(--base-color);
+}
+.card .title{
+    font-size: 2.4rem;
+    margin-bottom: 1.2rem;
+}
+
+
+
+/*================================================================================================TESTIMONIALS*/
+#testimonials{
+    background: white;
+}
+#testimonials .container{
+    margin-left: 0;
+    margin-right: 0;
+}
+#testimonials header{
+    margin-left: 2.4rem;
+    margin-right: 2.4rem;
+    margin-bottom: 0;
+}
+#testimonials blockquote{
+padding: 3.2rem;
+box-shadow: 0px 0px 12px hsla(0, 0%, 0%, 0.08);
+border-radius: 0.4rem;
+}
+#testimonials blockquote p{
+    position: relative;
+    text-indent: 3.0rem;
+    margin-bottom: 2.4rem;
+    color:var(--title-color)
+}
+#testimonials blockquote p span{
+    font: 700 2.4rem serif;
+    position: absolute;
+    top: -.6rem;
+    left: -3.0rem;
+    color: var(--base-color); 
+}
+#testimonials cite{
+    display: flex;
+    align-items: center;
+    font-style: normal;
+}
+#testimonials cite img{
+    width: 4.8rem;
+    height: 4.8rem;
+    object-fit: cover; /*enquadra a imagem que esta dentro da tag img e encaixe cubrindo todo espaço que estiver ali*/
+    clip-path: circle(); /*criar uma mascara circular sobre a imagem*/
+    margin-right: .8rem;
+}
+
+
+
+/*================================================================================================SWIPER*/
+.swiper-slide{
+    height: auto;
+    padding: 8rem 1.6rem;
+}
+.swiper-pagination-bullet{
+    width: 1.2rem;
+    height: 1.2rem;
+}
+.swiper-pagination-bullet-active {
+    background: var(--base-color);
+}
+
+
+
+/*================================================================================================CONTACT*/
+#button_whatsapp{
+    background-color: var(--base-color);
+    color: var(--text-color-light);
+    height: 5.6rem;
+    width: 23.6rem;
+    
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    padding: 0 3.2rem;
+    border-radius: 0.4rem;
+    font: 500 1.6rem 'DM Sans', sans-serif;
+    transition: background 0.3s;
+}
+#button_whatsapp:hover{
+    background: var(--base-color-alt);
+}
+#contat .grid{
+    gap: 6.4rem;
+}
+#contact .text p{
+    margin-bottom: 6.4rem;
+}
+#contact #button_whatsapp i{
+    font-size: 2.4rem;
+    margin-right: 1rem;
+}
+#contact .grid ul{ 
+    display: grid;
+    gap: 3.2rem;
+}
+#contact .links ul i{
+    margin-right: 1.2rem;
+    font-size: 2.4rem;
+    color: var(--base-color);
+}
+#contact ul li{
+    display: flex;
+    align-items: center;
+}
+
+
+/*================================================================================================FOOTER*/
+footer{
+    background: var(--base-color);
+}
+footer.section{
+    padding: 6.4rem 0;
+}
+footer .logo{
+    display: inline-block;
+    margin-bottom: 2.4rem;
+}
+footer .brand p{
+    color: var(--text-color-light);
+    margin-bottom: 1.2rem;
+}
+footer i{
+    font-size: 2.4rem;
+    color: var(--text-color-light);
+}
+footer .social{
+    grid-auto-flow: column;
+    width: fit-content;
+}
+footer .social a{
+    transition: 0.3s;
+    display: inline-block;
+    
+    /*ou*/
+    /* display: flex;
+       gap: 2rm;
+    */
+}
+footer .social a:hover{
+    transform: translateY(-8px);
+}
+
+/*================================================================================================BACK-TO-TOP*/
+.back-to-top{
+    background: var(--base-color);
+    color: var(--text-color-light);
+
+    position: fixed;
+
+    right: 1.6rem;
+    bottom: 1.6rem;
+
+    padding: 0.48rem;
+    clip-path: circle();
+
+    font-size: 2.56rem;
+    line-height: 0;
+
+    visibility: hidden;
+    opacity: 0;
+    
+    transition: 0.3s;
+    transform: translateY(130%);
+}
+.back-to-top.show{
+    visibility: visible;
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+/*================================================================================================DIVIDER*/
+.divider-1 { /*linha dividindo a section com cor gradiente*/
+    height: 1px;
+    background: linear-gradient(
+        270deg, 
+        hsla(var(--hue), 36%, 57%, 1),
+        hsla(var(--hue), 65%, 88%, 0.34)
+    );
+}
+.divider-2 { /*linha dividindo a section com cor gradiente*/
+    display: flex;
+    height: 1px;
+    background: linear-gradient(
+        270deg, 
+        hsla(var(--hue), 65%, 88%, 0.34),
+        hsla(var(--hue), 36%, 57%, 1)
+    );
+}
+.divider-3 { /*linha dividindo a section com cor gradiente*/
+    display: flex;
+    height: 1px;
+    background: linear-gradient(
+        270deg, 
+        hsla(var(--hue), 36%, 57%, 1),
+        hsla(var(--hue), 65%, 88%, 0.34)
+    );
+}
+.divider-4 { /*linha dividindo a section com cor gradiente*/
+    display: flex;
+    height: 1px;
+    background: linear-gradient(
+        270deg, 
+        hsla(var(--hue), 65%, 88%, 0.34),
+        hsla(var(--hue), 36%, 57%, 1)
+    );
+}
+
+/*================================================================================================RESPONSIVO*/
+/*a ideia do media é realizar uma operação ao contrario por exemplo */
+@media(min-width: 1200px){
+    /*reusable classes*/
+    .container{
+        max-width: 1120px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .section{
+        padding: 16rem 0;
+    }
+    .button{
+        height: 5.0rem;
+    }
+    /*navigation*/
+    nav .menu{
+        opacity: 1;
+        visibility: visible;
+        top: 0;
+    }
+    nav .menu ul{
+        display: flex;
+        gap: 3.2rem;
+    }
+    nav .menu ul li a.title{
+        font: 400 1.6rem var(--title-font);
+        -webkit-font-smoothing:antialiased;
+    }
+    nav .menu ul li a.title.active{
+        font-weight: bold;
+        -webkit-font-smoothing:auto;
+    }
+    nav .icon-menu{
+        display: none;
+    }
+    /*layout*/
+    main{
+        margin-top: var(--header-height);
+    }
+
+    /*home*/
+    #home .container{
+        grid-auto-flow: column;
+        justify-content: space-between;
+        margin: 0 auto;
+    }
+    #home .image{
+        order: 1;
+    }
+    #home .text{
+        order: 0;
+        max-width: 39.6rem;
+        text-align: left;
+    }
+    /*about*/
+    #about .container{
+        margin: 0 auto;
+        grid-auto-flow: column;
+    }
+/*sevices*/
+    #services header{
+        max-width: 52.3rem;
+        margin: 0 auto;
+    }
+    .section header,
+    #testimonials header{
+        max-width: 52.3rem;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .cards{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .card{
+        padding-left: 3.2rem;
+        padding-right: 3.2rem;
+    }
+/*testimonials*/
+    #testimonials .container{
+        margin-left: auto;
+        margin-right: auto;
+    }
+/*contact*/
+    #contact .container{
+        grid-auto-flow: column;
+        align-items: center;
+    }
+    #contact .text{
+        max-width: 40.6rem;
+    }
+/*footer*/
+footer.section{
+    padding: 6.1rem 0;
+}
+footer .container{
+    grid-auto-flow: column;
+    justify-content: space-between;
+    align-items: center;
+}
+footer .logo{
+    font-size: 3rem;
+}
+}
+
+@media (min-width: 992px){
+    :root{
+        --title-font-size:3.6rem;
+        --subtitle-font-size:1.8rem;
+    }
+}
